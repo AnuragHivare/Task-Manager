@@ -1,0 +1,42 @@
+{% extends 'tasks/base.html' %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h2>{{ form.instance.pk|yesno:"Edit Task,Add Task" }}</h2>
+    </div>
+    <div class="card-body">
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="id_name">Task Name</label>
+                {{ form.name }}
+            </div>
+            <div class="form-group">
+                <label for="id_deadline">Deadline</label>
+                {{ form.deadline }}
+            </div>
+            <div class="form-group">
+                <label for="id_priority">Priority</label>
+                {{ form.priority }}
+            </div>
+            <button type="submit" class="btn btn-success">Save</button>
+            <a href="{% url 'task_list' %}" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+</div>
+
+<!-- Flatpickr CSS and JS -->
+<link href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+<script type="text/javascript">
+    // Initialize Flatpickr on the deadline input field
+    flatpickr("#id_deadline", {
+        dateFormat: "Y-m-d",  // Date format compatible with Django
+        altInput: true,
+        altFormat: "F j, Y",  // Human-readable format for users
+        minDate: "today"  // Prevents selecting past dates
+    });
+</script>
+{% endblock %}
